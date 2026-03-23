@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+body { 
+    font-family: 'Inter', sans-serif; 
+}
+
+.btc-gradient { 
+    background: linear-gradient(135deg, #f7931a 0%, #ffab40 100%); 
+}
+
+.market-gradient { 
+    background: linear-gradient(135deg, #1a237e 0%, #3949ab 100%); 
+}
+
+.card-shadow {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.conversion-card {
+    background: white;
+    border: 2px solid #f7931a;
+}

@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel Cripto - Monitor de Bitcoins</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body class="bg-gray-50 min-h-screen pb-12">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 py-6 mb-8">
+      <div class="container mx-auto px-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-gray-800 flex items-center">
+          <i class="fab fa-bitcoin text-[#f7931a] mr-2 text-3xl"></i>
+          Monitor de Bitcoins
+          <span class="text-sm font-normal text-gray-500 ml-2"
+            >(Tempo Real)</span
+          >
+        </h1>
+        <div id="status" class="text-sm text-gray-500 flex items-center">
+          <span
+            id="update-indicator"
+            class="w-2 h-2 bg-green-500 rounded-full mr-2"
+          ></span>
+          Atualizado em:
+          <span id="last-update" class="ml-1 font-semibold">--:--:--</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-4 max-w-5xl">
+      <!-- Main Dashboard Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <!-- Valor Unitário Card -->
+        <div
+          class="btc-gradient rounded-3xl p-8 text-white shadow-xl transform hover:scale-[1.02] transition-transform duration-300"
+        >
+          <div class="flex justify-between items-start mb-4">
+            <span class="text-lg font-semibold opacity-90"
+              >Preço do Bitcoin (1 BTC)</span
+            >
+            <i class="fas fa-coins text-2xl opacity-50"></i>
+          </div>
+          <div class="text-4xl md:text-5xl font-bold mb-4" id="btc-price">
+            Carregando...
+          </div>
+          <div class="flex items-center text-sm font-medium">
+            <span
+              id="price-change-pill"
+              class="bg-white/20 px-3 py-1 rounded-full flex items-center"
+            >
+              <i id="price-icon" class="fas fa-minus mr-1"></i>
+              <span id="price-change-percent">0.00%</span>
+            </span>
+            <span class="ml-3 opacity-70">(nas últimas 24h)</span>
+          </div>
+        </div>
+
+        <!-- Conversor R$ 5,00 Card -->
+        <div
+          class="bg-white rounded-3xl p-8 border-2 border-[#f7931a] shadow-xl transform hover:scale-[1.02] transition-transform duration-300"
+        >
+          <div class="flex justify-between items-start mb-4">
+            <span class="text-lg font-semibold text-gray-700 italic"
+              >Quanto compro com R$ 5,00?</span
+            >
+            <i class="fas fa-calculator text-2xl text-[#f7931a] opacity-50"></i>
+          </div>
+          <div
+            class="text-3xl md:text-4xl font-bold text-gray-800 mb-4"
+            id="conversion-result"
+          >
+            Calculando...
+          </div>
+          <div class="text-sm font-medium text-gray-500">
+            Com apenas 5 reais, você já pode começar a investir em frações de
+            Bitcoin (Satoshis)!
+          </div>
+        </div>
+      </div>
+
+      <!-- Secondary Metrics Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+          <h3
+            class="text-gray-500 text-xs font-semibold mb-2 uppercase tracking-wider"
+          >
+            Dominância BTC
+          </h3>
+          <div class="text-2xl font-bold text-gray-800" id="btc-dominance">
+            --%
+          </div>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+          <h3
+            class="text-gray-500 text-xs font-semibold mb-2 uppercase tracking-wider"
+          >
+            Market Cap Total
+          </h3>
+          <div class="text-2xl font-bold text-gray-800" id="total-market-cap">
+            ...
+          </div>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+          <h3
+            class="text-gray-500 text-xs font-semibold mb-2 uppercase tracking-wider"
+          >
+            Volume (24h)
+          </h3>
+          <div class="text-2xl font-bold text-gray-800" id="total-volume">
+            ...
+          </div>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+          <h3
+            class="text-gray-500 text-xs font-semibold mb-2 uppercase tracking-wider"
+          >
+            Criptos Ativas
+          </h3>
+          <div class="text-2xl font-bold text-gray-800" id="active-cryptos">
+            ...
+          </div>
+        </div>
+      </div>
+
+      <!-- Tutorial Section -->
+      <div class="bg-blue-50 border border-blue-100 rounded-2xl p-6">
+        <h4 class="text-blue-800 font-bold mb-2 flex items-center">
+          <i class="fas fa-graduation-cap mr-2"></i>
+          Dica para quem está começando:
+        </h4>
+        <p class="text-blue-700 text-sm leading-relaxed">
+          Você não precisa comprar 1 Bitcoin inteiro! O Bitcoin é divisível em
+          até 8 casas decimais. A menor unidade é chamada de
+          <strong>Satoshi</strong>. Com apenas R$ 5,00 você já adquire milhares
+          de Satoshis e começa sua jornada no mercado.
+        </p>
+      </div>
+    </main>
+
+    <script src="assets/js/app.js"></script>
+  </body>
+</html>
