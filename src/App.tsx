@@ -85,7 +85,7 @@ function App() {
 
   useEffect(() => {
     fetchData();
-    const interval = setInterval(fetchData, 60000);
+    const interval = setInterval(fetchData, 10000); // Update every 10 seconds for real-time feel
     return () => clearInterval(interval);
   }, []);
 
