@@ -32,7 +32,7 @@ function App() {
   const [purchasePrice, setPurchasePrice] = useState<number>(0);
   const [exchangeFee, setExchangeFee] = useState<number>(2.0); // Mercado Pago standard fee approx 2%
   const [quickBuyAmount, setQuickBuyAmount] = useState<number>(5.0); // New state for quick buy amount
-  const [showRecommendation, setShowRecommendation] = useState<boolean>(false);
+  const [showRecommendation, setShowRecommendation] = useState<boolean>(true);
   const [lastAutoNotifyPrice, setLastAutoNotifyPrice] = useState<number>(0);
   const [notificationsEnabled, setNotificationsEnabled] =
     useState<boolean>(false);
