@@ -118,20 +118,20 @@ function App() {
 
     if (position < 0.3)
       return {
-        label: "COMPRA (Preço Baixo)",
+        label: "COMPRAR AGORA",
         color: "text-green-600",
         bg: "bg-green-100",
         icon: <TrendingUp className="w-5 h-5" />,
       };
     if (position > 0.7)
       return {
-        label: "VENDA/AGUARDAR (Preço Alto)",
+        label: "VENDER AGORA",
         color: "text-red-600",
         bg: "bg-red-100",
         icon: <TrendingDown className="w-5 h-5" />,
       };
     return {
-      label: "NEUTRO (Aguardar)",
+      label: "AGUARDAR",
       color: "text-blue-600",
       bg: "bg-blue-100",
       icon: <ArrowRightLeft className="w-5 h-5" />,
