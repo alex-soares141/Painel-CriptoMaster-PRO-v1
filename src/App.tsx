@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   TrendingUp,
   TrendingDown,
@@ -163,7 +163,7 @@ function App() {
         );
         audio
           .play()
-          .catch((e) =>
+          .catch(() =>
             console.log("Áudio bloqueado, clique na página para liberar."),
           );
 
@@ -392,16 +392,20 @@ function App() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-slate-500 mb-2">Comprei o BTC a:</label>
+                  <label className="block text-sm font-semibold text-slate-500 mb-2">
+                    Comprei o BTC a:
+                  </label>
                   <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-slate-400">R$</span>
-                    <input 
-                      type="number" 
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-slate-400">
+                      R$
+                    </span>
+                    <input
+                      type="number"
                       value={purchasePrice}
                       onChange={(e) => setPurchasePrice(Number(e.target.value))}
                       className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all"
                     />
-                    <button 
+                    <button
                       onClick={() => data && setPurchasePrice(data.priceBRL)}
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] bg-slate-200 hover:bg-slate-300 px-2 py-1 rounded font-bold transition-colors"
                     >
@@ -411,10 +415,16 @@ function App() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-slate-500 mb-2">Valor Atual do BTC:</label>
+                  <label className="block text-sm font-semibold text-slate-500 mb-2">
+                    Valor Atual do BTC:
+                  </label>
                   <div className="p-3 bg-orange-50 border border-orange-100 rounded-xl">
-                    <span className="text-orange-400 font-bold text-xs uppercase block mb-1">Mercado Agora</span>
-                    <span className="text-xl font-black text-orange-600">{data ? formatBRL(data.priceBRL) : '...'}</span>
+                    <span className="text-orange-400 font-bold text-xs uppercase block mb-1">
+                      Mercado Agora
+                    </span>
+                    <span className="text-xl font-black text-orange-600">
+                      {data ? formatBRL(data.priceBRL) : "..."}
+                    </span>
                   </div>
                 </div>
               </div>
