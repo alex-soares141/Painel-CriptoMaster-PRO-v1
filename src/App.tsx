@@ -405,6 +405,14 @@ function App() {
               <div className="pt-4 mt-4 border-t border-slate-100">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-slate-500 font-medium">
+                    Custos (Taxas Compra+Venda):
+                  </span>
+                  <span className="font-bold text-red-500">
+                    -{formatBRL(buyFee + sellFee)}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-slate-500 font-medium">
                     Lucro/Prejuízo Líquido:
                   </span>
                   <span
@@ -420,7 +428,7 @@ function App() {
                       {formatBRL(netSaleValue)}
                     </span>
                     <p className="text-[10px] text-slate-400">
-                      Valor já descontado as taxas
+                      Valor final que cai na sua conta
                     </p>
                   </div>
                   <span
