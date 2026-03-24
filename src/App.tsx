@@ -33,21 +33,6 @@ function App() {
   const [exchangeFee, setExchangeFee] = useState<number>(2.0); // Mercado Pago standard fee approx 2%
   const [quickBuyAmount, setQuickBuyAmount] = useState<number>(5.0); // New state for quick buy amount
   const [showRecommendation, setShowRecommendation] = useState<boolean>(true);
-  const [lastAutoNotifyPrice, setLastAutoNotifyPrice] = useState<number>(0);
-  const [notificationsEnabled, setNotificationsEnabled] =
-    useState<boolean>(false);
-
-  const requestNotificationPermission = async () => {
-    if ("Notification" in window) {
-      const permission = await Notification.requestPermission();
-      if (permission === "granted") {
-        setNotificationsEnabled(true);
-        new Notification("CriptoMaster PRO", {
-          body: "Notificações ativadas com sucesso!",
-        });
-      }
-    }
-  };
 
   const fetchData = async () => {
     try {
@@ -139,48 +124,6 @@ function App() {
   };
 
   const recommendation = getRecommendation();
-
-  // Auto Notify Logic
-  useEffect(() => {
-    if (showRecommendation && recommendation.label.includes("COMPRA") && data) {
-      // Only notify if price changed significantly or it's the first time
-      const priceDiff = Math.abs(data.priceBRL - lastAutoNotifyPrice);
-      if (lastAutoNotifyPrice === 0 || priceDiff > lastAutoNotifyPrice * 0.01) {
-        // 1. WhatsApp Notify (Needs Popup Permission)
-        handleWhatsAppNotify();
-
-        // 2. Desktop Notification
-        if (notificationsEnabled) {
-          new Notification("🚨 HORA DE COMPRAR BITCOIN!", {
-            body: `Preço atual: ${formatBRL(data.priceBRL)}\nRecomendação: ${recommendation.label}`,
-            icon: "/favicon.svg",
-          });
-        }
-
-        // 3. Audio Alert (Needs User Interaction at least once)
-        const audio = new Audio(
-          "https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3",
-        );
-        audio
-          .play()
-          .catch(() =>
-            console.log("Áudio bloqueado, clique na página para liberar."),
-          );
-
-        setLastAutoNotifyPrice(data.priceBRL);
-      }
-    }
-  }, [data, showRecommendation, recommendation.label, notificationsEnabled]);
-
-  const handleWhatsAppNotify = () => {
-    if (!data) return;
-    const message = `CriptoMaster PRO - Hora de Agir!\n\nStatus: ${recommendation.label}\nPreço Atual: ${formatBRL(data.priceBRL)}\nMínima 24h: ${formatBRL(data.low24h)}\nMáxima 24h: ${formatBRL(data.high24h)}\n\nPainel: ${window.location.origin}`;
-    const encodedMessage = encodeURIComponent(message);
-    window.open(
-      `https://api.whatsapp.com/send?phone=5533988997674&text=${encodedMessage}`,
-      "_blank",
-    );
-  };
 
   // Profit calculation considering Mercado Pago fees
   // Fee is applied twice: once at purchase and once at sale
@@ -295,11 +238,9 @@ function App() {
                       type="checkbox"
                       className="sr-only peer"
                       checked={showRecommendation}
-                      onChange={() => {
-                        setShowRecommendation(!showRecommendation);
-                        if (!notificationsEnabled)
-                          requestNotificationPermission();
-                      }}
+                      onChange={() =>
+                        setShowRecommendation(!showRecommendation)
+                      }
                     />
                     <div className="w-10 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-orange-500"></div>
                   </div>
@@ -317,20 +258,31 @@ function App() {
                     </span>
                   </div>
 
-                  <button
-                    onClick={handleWhatsAppNotify}
-                    className="w-full mb-4 bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition-all transform active:scale-95 shadow-md shadow-green-100"
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      width="20"
-                      height="20"
-                      fill="currentColor"
-                    >
-                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
-                    </svg>
-                    Notificar no WhatsApp
-                  </button>
+                  {data && (
+                    <div className="grid grid-cols-2 gap-3 mb-4">
+                      <div className="bg-green-50 p-3 rounded-xl border border-green-100">
+                        <p className="text-green-600 text-[10px] font-bold uppercase mb-1">
+                          Subiu da Mínima
+                        </p>
+                        <p className="text-lg font-black text-green-700">
+                          +
+                          {((data.priceBRL / data.low24h - 1) * 100).toFixed(2)}
+                          %
+                        </p>
+                      </div>
+                      <div className="bg-red-50 p-3 rounded-xl border border-red-100">
+                        <p className="text-red-600 text-[10px] font-bold uppercase mb-1">
+                          Caiu da Máxima
+                        </p>
+                        <p className="text-lg font-black text-red-700">
+                          {((data.priceBRL / data.high24h - 1) * 100).toFixed(
+                            2,
+                          )}
+                          %
+                        </p>
+                      </div>
+                    </div>
+                  )}
 
                   <p className="text-slate-500 text-sm leading-relaxed">
                     Análise baseada na posição do preço atual (R$) em relação às
