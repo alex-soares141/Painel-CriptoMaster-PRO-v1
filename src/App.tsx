@@ -87,6 +87,20 @@ function App() {
       notation: "compact",
     }).format(val);
 
+  // Profit calculation considering Mercado Pago fees
+  // Fee is applied twice: once at purchase and once at sale
+  const buyFee = investmentAmount * (exchangeFee / 100);
+  const netInvestment = investmentAmount - buyFee;
+
+  const btcOwned = netInvestment / purchasePrice;
+  const grossSaleValue = data ? btcOwned * data.priceBRL : 0;
+
+  const sellFee = grossSaleValue * (exchangeFee / 100);
+  const netSaleValue = grossSaleValue - sellFee;
+
+  const profit = netSaleValue - investmentAmount;
+  const profitPercent = (profit / investmentAmount) * 100;
+
   // Buy/Sell Logic (Simplified)
   const getRecommendation = () => {
     if (!data)
@@ -101,6 +115,7 @@ function App() {
     const range = data.high24h - data.low24h;
     const position = (data.priceBRL - data.low24h) / range;
 
+    // Recommendation considers user's profit
     if (position < 0.3)
       return {
         label: "COMPRAR AGORA",
@@ -108,13 +123,17 @@ function App() {
         bg: "bg-green-100",
         icon: <TrendingUp className="w-5 h-5" />,
       };
-    if (position > 0.7)
+
+    // Only recommend selling if the user is actually in profit (profit > 0)
+    if (position > 0.7 && profit > 0)
       return {
         label: "VENDER AGORA",
         color: "text-red-600",
         bg: "bg-red-100",
         icon: <TrendingDown className="w-5 h-5" />,
       };
+
+    // Default to AGUARDAR if in loss or in neutral zone
     return {
       label: "AGUARDAR",
       color: "text-blue-600",
@@ -124,20 +143,6 @@ function App() {
   };
 
   const recommendation = getRecommendation();
-
-  // Profit calculation considering Mercado Pago fees
-  // Fee is applied twice: once at purchase and once at sale
-  const buyFee = investmentAmount * (exchangeFee / 100);
-  const netInvestment = investmentAmount - buyFee;
-
-  const btcOwned = netInvestment / purchasePrice;
-  const grossSaleValue = data ? btcOwned * data.priceBRL : 0;
-
-  const sellFee = grossSaleValue * (exchangeFee / 100);
-  const netSaleValue = grossSaleValue - sellFee;
-
-  const profit = netSaleValue - investmentAmount;
-  const profitPercent = (profit / investmentAmount) * 100;
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 w-full font-sans">
